@@ -27,8 +27,8 @@ int main(int argc, char** argv) {
   double cell_width = 4.0 / width;
   double cell_height = 4.0 / height;
 
-  int midrow = height / 2;
-  int midcol = width / 2;
+  double midrow = height / 2.0;
+  double midcol = width / 2.0;
 
   size_t bufsize = width * height * sizeof(struct Complex);
 
@@ -36,8 +36,8 @@ int main(int argc, char** argv) {
 
   for (size_t row = 0; row < height; ++row) {
     for (size_t col = 0; col < width; ++col) {
-      int relrow = row - midrow;
-      int relcol = col - midcol;
+      double relrow = row - midrow + 0.5;
+      double relcol = col - midcol + 0.5;
 
       struct Complex* c = &cs[row * width + col];
       c->re = relcol * cell_width;
@@ -73,7 +73,6 @@ int main(int argc, char** argv) {
         z->re = re_sqr - im_sqr + c->re;
       }
 
-
       unsigned rb = r * 255.0;
       unsigned gb = g * 255.0;
       unsigned bb = b * 255.0;
@@ -82,4 +81,7 @@ int main(int argc, char** argv) {
     }
     putchar('\n');
   }
+
+  free(cs);
+  free(zs);
 }
