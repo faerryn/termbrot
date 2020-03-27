@@ -8,13 +8,13 @@ struct Complex {
 };
 
 int main(int argc, char** argv) {
-  unsigned max_it = 256;
+  const unsigned max_it = 256;
   size_t width;
   size_t height;
 
   if (argc <= 1) {
     width = 64;
-    height = 32;
+    height = width / 2;
   } else if (argc == 2) {
     width = strtol(argv[1], NULL, 10);
     height = width / 2;
