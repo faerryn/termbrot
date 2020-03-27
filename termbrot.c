@@ -1,11 +1,6 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-struct Complex {
-  double re;
-  double im;
-};
+#include <tgmath.h>
 
 int main(int argc, char** argv) {
   const unsigned max_it = 256;
@@ -34,16 +29,16 @@ int main(int argc, char** argv) {
       double relrow = row - midrow + 0.5;
       double relcol = col - midcol + 0.5;
 
-      struct Complex c = {relcol * cell_width, relrow * cell_height};
-      struct Complex z = c;
+      double complex c = relcol * cell_width + (relrow * cell_height) * I;
+      double complex z = c;
       double r = 0.0;
       double g = 0.0;
       double b = 0.0;
 
       unsigned it = 0;
       for (; it < max_it; ++it) {
-        double re_sqr = z.re * z.re;
-        double im_sqr = z.im * z.im;
+        double re_sqr = creal(z) * creal(z);
+        double im_sqr = cimag(z) * cimag(z);
 
         if (re_sqr + im_sqr > 4.0) {
           r = sin(it / 8.0);
@@ -52,8 +47,7 @@ int main(int argc, char** argv) {
           break;
         }
 
-        z.im = 2.0 * z.re * z.im + c.im;
-        z.re = re_sqr - im_sqr + c.re;
+        z = re_sqr - im_sqr + creal(c) + (2.0 * creal(z) * cimag(z) + cimag(c)) * I;
       }
 
       unsigned rb = r * 255.0;
