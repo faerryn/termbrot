@@ -1,6 +1,7 @@
-build: termbrot.c
-	mkdir -p bin
-	cc termbrot.c -lm -o bin/termbrot
+build: termbrot
+
+termbrot: termbrot.c
+	cc termbrot.c -lm -o termbrot
 
 clean: bin/*
 	rm -r bin/*
